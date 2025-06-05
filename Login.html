@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mazao Hub | Login</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f5fff5;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    h1 {
+      color: #2e7d32;
+      margin-bottom: 20px;
+    }
+
+    .login-options {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .login-btn {
+      padding: 15px 30px;
+      font-size: 16px;
+      border: none;
+      background-color: #4caf50;
+      color: white;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    .login-btn:hover {
+      background-color: #388e3c;
+    }
+  </style>
+</head>
+<body>
+  <h1>Login as:</h1>
+  <div class="login-options">
+    <button class="login-btn" onclick="location.href='login-buyer.html'">Buyer</button>
+    <button class="login-btn" onclick="location.href='login-seller.html'">Seller</button>
+    <button class="login-btn" onclick="location.href='login-admin.html'">Admin</button>
+  </div>
+</body>
+</html>
