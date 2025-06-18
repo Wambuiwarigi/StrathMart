@@ -5,6 +5,8 @@ const bodyParser = require('body-parser');
 
 
 const app = express();
+app.use(express.static(path.join(__dirname)));
+
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
@@ -50,6 +52,6 @@ app.post('/submit-signup', (req, res) => {
 });
 
 // Start server
-app.listen(5000, () => {
-  console.log('Server running on http://localhost:5000');
+app.listen(5500, () => {
+  console.log('Server running on http://localhost:5500');
 });
