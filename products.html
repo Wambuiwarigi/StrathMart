@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>StarthMart</title>
+  <style>
+    .product { border: 1px solid #ccc; margin: 10px; padding: 10px; }
+  </style>
+</head>
+<body>
+  <h1>Available Products</h1>
+  <div id="products"></div>
+
+  <script>
+    fetch('http://localhost:5000/api/products')
+      .then(res => res.json())
+      .then(data => {
+        const container = document.getElementById('products');
+        data.forEach(p => {
+          const div = document.createElement('div');
+          div.className = 'product';
+          div.innerHTML = `
+            <h3>${p.title}</h3>
+            <p>${p.description}</p>
+            <p><strong>Price:</strong> $${p.price}</p>
+            <button onclick="orderProduct('${p.id}')">Order</button>
+          `;
+          container.appendChild(div);
+        });
+      });
+
+    function orderProduct(productId) {
+      const payload = {
+        buyer_id: "buyer-id-here", // Replace with actual buyer ID
+        product_service_id: productId,
+        quantity: 1,
+        delivery_address: "Dorm B",
+        notes: "Please deliver ASAP"
+      };
+
+      fetch('http://localhost:5000/api/products/order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      })
+        .then(res => res.text())
+        .then(alert)
+        .catch(err => alert("Error placing order"));
+    }
+  </script>
+</body>
+</html>
