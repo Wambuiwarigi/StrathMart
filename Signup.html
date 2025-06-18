@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
       <title>Signup | StrathMart</title>
-    <link rel="stylesheet" 
-  href="Login.css">
+    <link rel="stylesheet"  href="Login.css">
+    
 </head>
 <body>
 
 <h2>Sign Up</h2>
-<form action="/submit-signup" method="post">
+<form action="/submit-signup" method="POST">
     <label for="first_name">First Name:</label><br>
     <input type="text" id="first_name" name="first_name" required><br><br>
 
@@ -32,6 +32,26 @@
 
     <button type="submit">Sign Up</button>
 </form>
+<script>
+  document.getElementById("signupForm").addEventListener("submit", async function (e) {
+    e.preventDefault(); // prevents page reload
+    const formData = new FormData(this);
+    const data = Object.fromEntries(formData.entries());
 
+    try {
+      const response = await fetch("http://localhost:5000/api/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      });
+
+      const result = await response.json();
+      alert(result.message);
+    } catch (error) {
+      alert("Server error. Please try again later.");
+      console.error(error);
+    }
+  });
+</script>
 </body>
 </html>

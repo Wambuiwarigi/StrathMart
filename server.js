@@ -1,51 +1,55 @@
 const express = require('express');
-const cors = require('cors');
-const bodyParser = require('body-parser');
+const path = require('path');
 const mysql = require('mysql2');
+const bodyParser = require('body-parser');
+
 
 const app = express();
-app.use(cors());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'signup.html'));
+});
+
+// Connect to MySQL
 const db = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: '', // your MySQL password
-  database: 'campus_marketplace'
+  password: 'Radha.26',
+  database: 'strathmart'
 });
 
-db.connect(err => {
-  if (err) throw err;
-  console.log('✅ Connected to database');
+db.connect((err) => {
+  if (err) {
+    console.error('Database connection failed:', err);
+  } else {
+    console.log('Connected to MySQL');
+  }
 });
 
-// Show all products
-app.get('/products', (req, res) => {
-  db.query('SELECT * FROM products_services WHERE available = 1', (err, results) => {
-    if (err) throw err;
-    res.json(results);
+// Handle signup form POST
+app.post('/submit-signup', (req, res) => {
+  const { first_name, last_name, email, phone, registration_number } = req.body;
+
+  const sql = `
+    INSERT INTO student_buyers (id, first_name, last_name, email, phone, registration_number, status)
+    VALUES (?, ?, ?, ?, ?, ?, 'active')
+  `;
+
+  const id = 'buyer-' + Math.floor(Math.random() * 10000);
+
+  db.query(sql, [id, first_name, last_name, email, phone, registration_number], (err, result) => {
+    if (err) {
+      console.error('Error inserting data:', err);
+      res.status(500).send('Failed to sign up');
+    } else {
+      res.send('Signup successful!');
+    }
   });
 });
 
-// Place an order
-app.post('/order', (req, res) => {
-  const { buyer_id, product_service_id, quantity, delivery_address, notes } = req.body;
-
-  db.query('SELECT price, seller_id FROM products_services WHERE id = ?', [product_service_id], (err, result) => {
-    if (err || result.length === 0) return res.status(400).send("Invalid product");
-
-    const { price, seller_id } = result[0];
-    const total_amount = quantity * price;
-
-    db.query('INSERT INTO orders (id, buyer_id, product_service_id, seller_id, quantity, total_amount, delivery_address, notes, status) VALUES (UUID(), ?, ?, ?, ?, ?, ?, ?, "pending")',
-      [buyer_id, product_service_id, seller_id, quantity, total_amount, delivery_address, notes],
-      (err) => {
-        if (err) return res.status(500).send(err);
-        res.send("✅ Order placed successfully!");
-      });
-  });
-});
-
+// Start server
 app.listen(5000, () => {
-  console.log('🚀 Server running on http://localhost:5000');
+  console.log('Server running on http://localhost:5000');
 });
