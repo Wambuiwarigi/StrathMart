@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Checkout | StrathMart</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #fff;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .checkout-container {
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    h2, h3, h4 {
+      color: #b22222; /* Red theme */
+    }
+
+    .checkout-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+    }
+
+    .checkout-left, .checkout-right {
+      flex: 1;
+      background: #fdf6e3; /* Beige background */
+      padding: 20px;
+      border-radius: 8px;
+    }
+
+    .order-summary table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .order-summary th, .order-summary td {
+      padding: 10px;
+      text-align: left;
+      border-bottom: 1px solid #ccc;
+    }
+
+    .recipient-info input {
+      display: block;
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 8px;
+    }
+
+    .payment-method select,
+    .voucher input {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 10px;
+    }
+
+    .voucher button {
+      background-color: #b22222;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .summary {
+      margin-top: 20px;
+    }
+
+    #proceed-payment {
+      background-color: royalblue;
+      color: white;
+      padding: 12px;
+      width: 100%;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+      .checkout-grid {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="checkout-container">
+    <h2>Checkout</h2>
+
+    <div class="checkout-grid">
+      <!-- Left Column -->
+      <div class="checkout-left">
+        <div class="order-summary">
+          <h3>🛒 Order Summary</h3>
+          <table>
+            <thead>
+              <tr><th>Item</th><th>Price</th><th>Qty</th><th>Total</th></tr>
+            </thead>
+            <tbody id="cart-body">
+              <tr>
+                <td>Notebook</td>
+                <td class="unit-price">150</td>
+                <td><input type="number" class="qty" value="1" min="1"></td>
+                <td class="line-total">150</td>
+              </tr>
+              <tr>
+                <td>Pen Pack</td>
+                <td class="unit-price">300</td>
+                <td><input type="number" class="qty" value="2" min="1"></td>
+                <td class="line-total">600</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="recipient-info">
+          <h3>👤 Recipient Information</h3>
+          <input type="text" placeholder="Full name" required>
+          <input type="text" placeholder="Phone number" required>
+        </div>
+      </div>
+
+      <!-- Right Column -->
+      <div class="checkout-right">
+        <div class="payment-method">
+          <h3>💳 Payment Method</h3>
+          <select id="payment-select">
+            <option value="mpesa">M-Pesa</option>
+            <option value="stripe">Stripe</option>
+          </select>
+        </div>
+
+        <div class="voucher">
+          <h4>🎟️ Voucher</h4>
+          <input type="text" placeholder="Enter voucher code">
+          <button>Apply</button>
+        </div>
+
+        <div class="summary">
+          <h3>🧾 Summary</h3>
+          <p>Subtotal: <span id="subtotal">750</span> KES</p>
+          <p>Delivery Fee: <span id="delivery-fee">100</span> KES</p>
+          <hr>
+          <p><strong>Total: <span id="final-total">850</span> KES</strong></p>
+        </div>
+
+        <button id="proceed-payment">Proceed to Payment</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function calculateTotals() {
+      const rows = document.querySelectorAll("#cart-body tr");
+      let subtotal = 0;
+
+      rows.forEach(row => {
+        const unitPrice = parseFloat(row.querySelector(".unit-price").innerText);
+        const quantity = parseInt(row.querySelector(".qty").value);
+        const lineTotal = unitPrice * quantity;
+        row.querySelector(".line-total").innerText = lineTotal;
+        subtotal += lineTotal;
+      });
+
+      document.getElementById("subtotal").innerText = subtotal;
+      const delivery = 100;
+      document.getElementById("delivery-fee").innerText = delivery;
+      document.getElementById("final-total").innerText = subtotal + delivery;
+    }
+
+    document.querySelectorAll(".qty").forEach(input => {
+      input.addEventListener("input", calculateTotals);
+    });
+
+    window.addEventListener("load", calculateTotals);
+  </script>
+</body>
+</html>

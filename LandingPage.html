@@ -3,58 +3,774 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Mazao Hub connects Kenyan farmers directly with consumers for fresh, local produce at fair prices.">
-  <meta name="keywords" content="farmers, produce, Kenya, Mazao Hub, agriculture, fresh food, marketplace">
-  <meta name="author" content="Mazao Hub Team">
-  <title>Mazao Hub - Empowering Farmers</title>
-  <link rel="stylesheet" href="../public/CSS files/BuyersProfile.css" />
+  <meta name="description" content="StrathMart - Student E-commerce Platform for Goods and Services">
+  <meta name="keywords" content="students, e-commerce, goods, services, university, marketplace, academic">
+  <meta name="author" content="Joy, Radha">
+  <title>StrathMart - Student E-commerce Platform</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary-red: #DC2626;
+      --primary-blue: #1E40AF;
+      --mustard-yellow: #D97706;
+      --dark-red: #B91C1C;
+      --light-red: #FEE2E2;
+      --light-blue: #DBEAFE;
+      --light-yellow: #FEF3C7;
+      --white: #FFFFFF;
+      --dark-gray: #374151;
+      --light-gray: #F9FAFB;
+      --overlay-dark: rgba(0, 0, 0, 0.4);
+    }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      line-height: 1.6;
+      color: var(--white);
+      margin: 0;
+      overflow-x: hidden;
+    }
+
+    /* Header Styles */
+    header {
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      background: rgba(220, 38, 38, 0.95);
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .icon {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .icon img {
+      width: 35px;
+      height: 35px;
+      border-radius: 8px;
+      border: 2px solid var(--white);
+    }
+
+    .icon h1 {
+      color: var(--white);
+      font-size: 1.8rem;
+      font-weight: bold;
+      letter-spacing: -0.5px;
+    }
+
+    .search__container {
+      flex: 1;
+      max-width: 350px;
+      margin: 0 2rem;
+      position: relative;
+    }
+
+    .search__input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: none;
+      border-radius: 25px;
+      outline: none;
+      font-size: 0.95rem;
+      background: rgba(255, 255, 255, 0.2);
+      color: var(--white);
+      transition: all 0.3s ease;
+    }
+
+    .search__input::placeholder {
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .search__input:focus {
+      background: rgba(255, 255, 255, 0.3);
+      transform: scale(1.02);
+    }
+
+    .navmenu ul {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+    }
+
+    .navmenu a {
+      text-decoration: none;
+      color: var(--white);
+      font-weight: 500;
+      padding: 0.5rem 0;
+      position: relative;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      font-size: 0.9rem;
+      letter-spacing: 0.5px;
+    }
+
+    .navmenu a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--mustard-yellow);
+      transition: width 0.3s ease;
+    }
+
+    .navmenu a:hover::after {
+      width: 100%;
+    }
+
+    .Logout button {
+      background: rgba(255, 255, 255, 0.2);
+      color: var(--white);
+      border: 2px solid var(--white);
+      padding: 0.75rem 1.5rem;
+      border-radius: 25px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      letter-spacing: 0.5px;
+    }
+
+    .Logout button:hover {
+      background: var(--white);
+      color: var(--primary-red);
+      transform: translateY(-2px);
+    }
+
+    /* Hero Section - Inspired by the reference */
+    .hero {
+      height: 100vh;
+      background: linear-gradient(135deg, var(--primary-red) 0%, var(--dark-red) 50%, var(--primary-blue) 100%);
+      position: relative;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: var(--overlay-dark);
+      z-index: 1;
+    }
+
+    .hero-background {
+      position: absolute;
+      right: -10%;
+      top: 10%;
+      width: 60%;
+      height: 80%;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400"><defs><pattern id="dots" width="40" height="40" patternUnits="userSpaceOnUse"><circle cx="20" cy="20" r="2" fill="rgba(255,255,255,0.1)"/></pattern></defs><rect width="400" height="400" fill="url(%23dots)"/><rect x="50" y="50" width="300" height="200" rx="20" fill="rgba(217,119,6,0.3)"/><rect x="80" y="80" width="240" height="140" rx="15" fill="rgba(30,64,175,0.2)"/></svg>') no-repeat center;
+      background-size: contain;
+      opacity: 0.3;
+      z-index: 1;
+    }
+
+    .hero-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .hero-text {
+      color: var(--white);
+    }
+
+    .hero h1 {
+      font-size: 4rem;
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .hero h1 .highlight {
+      color: var(--mustard-yellow);
+    }
+
+    .hero .subtitle {
+      font-size: 1.3rem;
+      margin-bottom: 2rem;
+      opacity: 0.95;
+      line-height: 1.5;
+      font-weight: 300;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 3rem;
+    }
+
+    .cta-btn {
+      display: inline-block;
+      background: var(--mustard-yellow);
+      color: var(--white);
+      padding: 1rem 2rem;
+      text-decoration: none;
+      border-radius: 30px;
+      font-weight: bold;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border: 2px solid var(--mustard-yellow);
+    }
+
+    .cta-btn:hover {
+      background: transparent;
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px rgba(217, 119, 6, 0.4);
+    }
+
+    .cta-btn.secondary {
+      background: transparent;
+      border: 2px solid var(--white);
+      color: var(--white);
+    }
+
+    .cta-btn.secondary:hover {
+      background: var(--white);
+      color: var(--primary-red);
+    }
+
+    .hero-visual {
+      position: relative;
+      height: 500px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .floating-card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      padding: 2rem;
+      position: absolute;
+      color: var(--white);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+      transition: all 0.3s ease;
+    }
+
+    .floating-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .floating-card:nth-child(1) {
+      top: 10%;
+      right: 20%;
+      animation: float 3s ease-in-out infinite;
+    }
+
+    .floating-card:nth-child(2) {
+      bottom: 20%;
+      left: 10%;
+      animation: float 3s ease-in-out infinite 1s;
+    }
+
+    .floating-card:nth-child(3) {
+      top: 50%;
+      right: 5%;
+      animation: float 3s ease-in-out infinite 2s;
+    }
+
+    .brand-badge {
+      position: absolute;
+      bottom: 2rem;
+      left: 2rem;
+      background: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(10px);
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      color: var(--white);
+      font-weight: bold;
+      font-size: 1.1rem;
+      border: 2px solid var(--mustard-yellow);
+    }
+
+    /* User Segments */
+    .user-segments {
+      padding: 6rem 2rem;
+      background: var(--white);
+      color: var(--dark-gray);
+    }
+
+    .user-segments h2 {
+      text-align: center;
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      color: var(--primary-blue);
+      font-weight: 900;
+    }
+
+    .user-segments .subtitle {
+      text-align: center;
+      font-size: 1.2rem;
+      margin-bottom: 4rem;
+      color: var(--dark-gray);
+      opacity: 0.8;
+    }
+
+    .user-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .user-card {
+      background: var(--white);
+      padding: 3rem 2rem;
+      border-radius: 20px;
+      text-decoration: none;
+      color: var(--dark-gray);
+      font-size: 1.5rem;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+      position: relative;
+      overflow: hidden;
+      border: 3px solid transparent;
+      text-align: center;
+    }
+
+    .user-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      transition: all 0.3s ease;
+    }
+
+    .user-card:nth-child(1)::before {
+      background: var(--primary-red);
+    }
+
+    .user-card:nth-child(2)::before {
+      background: var(--primary-blue);
+    }
+
+    .user-card:nth-child(3)::before {
+      background: var(--mustard-yellow);
+    }
+
+    .user-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+    }
+
+    .user-card:nth-child(1):hover {
+      border-color: var(--primary-red);
+      color: var(--primary-red);
+    }
+
+    .user-card:nth-child(2):hover {
+      border-color: var(--primary-blue);
+      color: var(--primary-blue);
+    }
+
+    .user-card:nth-child(3):hover {
+      border-color: var(--mustard-yellow);
+      color: var(--mustard-yellow);
+    }
+
+    /* Featured Products */
+    .featured-products {
+      padding: 6rem 2rem;
+      background: linear-gradient(135deg, var(--light-gray) 0%, var(--white) 100%);
+      color: var(--dark-gray);
+    }
+
+    .featured-products h2 {
+      text-align: center;
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      color: var(--primary-blue);
+      font-weight: 900;
+    }
+
+    .featured-products .subtitle {
+      text-align: center;
+      font-size: 1.2rem;
+      margin-bottom: 4rem;
+      color: var(--dark-gray);
+      opacity: 0.8;
+    }
+
+    .product-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .product-card {
+      background: var(--white);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .product-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+    }
+
+    .product-image {
+      height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: var(--white);
+      position: relative;
+    }
+
+    .product-card:nth-child(1) .product-image {
+      background: linear-gradient(135deg, var(--primary-red), var(--dark-red));
+    }
+
+    .product-card:nth-child(2) .product-image {
+      background: linear-gradient(135deg, var(--primary-blue), var(--primary-red));
+    }
+
+    .product-card:nth-child(3) .product-image {
+      background: linear-gradient(135deg, var(--mustard-yellow), var(--primary-blue));
+    }
+
+    .product-info {
+      padding: 2rem;
+    }
+
+    .product-info h3 {
+      color: var(--primary-blue);
+      margin-bottom: 0.5rem;
+      font-size: 1.3rem;
+    }
+
+    .product-info p {
+      color: var(--dark-gray);
+      margin-bottom: 1.5rem;
+      opacity: 0.8;
+    }
+
+    .product-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .price {
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: var(--primary-red);
+    }
+
+    .add-to-cart {
+      background: var(--primary-blue);
+      color: var(--white);
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 25px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+
+    .add-to-cart:hover {
+      background: var(--primary-red);
+      transform: translateY(-2px);
+    }
+
+    /* Animations */
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      nav {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+      }
+
+      .search__container {
+        margin: 0;
+        max-width: 100%;
+      }
+
+      .navmenu ul {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem;
+      }
+
+      .hero-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        text-align: center;
+      }
+
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+
+      .hero-buttons {
+        justify-content: center;
+      }
+
+      .hero-visual {
+        height: 300px;
+      }
+
+      .floating-card {
+        position: relative;
+        top: auto !important;
+        bottom: auto !important;
+        left: auto !important;
+        right: auto !important;
+        margin: 1rem;
+      }
+
+      .user-cards,
+      .product-cards {
+        grid-template-columns: 1fr;
+      }
+
+      .user-segments h2,
+      .featured-products h2 {
+        font-size: 2.5rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero {
+        padding: 2rem 1rem;
+      }
+
+      .hero h1 {
+        font-size: 2rem;
+      }
+
+      .hero .subtitle {
+        font-size: 1.1rem;
+      }
+
+      .hero-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
 </head>
 <body>
+  <header>
+    <nav>
+      <div class="icon">
+        <img src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='15' fill='%23DC2626'/><path d='M25 35 L75 35 L70 65 L30 65 Z' fill='white'/><circle cx='40' cy='75' r='5' fill='white'/><circle cx='60' cy='75' r='5' fill='white'/></svg>" alt="StrathMart">
+        <h1>StrathMart</h1>
+      </div>
+      <div class="search__container">
+        <input class="search__input" type="text" placeholder="Search products & services...">
+      </div>
+      <div class="navmenu">
+        <ul>
+          <li><a href="Listings.html">Browse</a></li>
+          <li><a href="Login.html">Sign In</a></li>
+          <li><a href="Profile.html">Profile</a></li>
+          <li><a href="Cart.html">Cart</a></li>
+        </ul>
+      </div>
+      <div class="Logout">
+        <a href="../public/homepage.html"><button>Sign Out</button></a>
+      </div>
+    </nav>
+  </header>
 
-<header>
-  <nav>
-    <div class="icon">
-      <img src="../Assets/Green and White Plants Organic Logo.png" alt="Mazao Hub Logo">
-      <h1>MazaoHub</h1>
+  <section class="hero">
+    <div class="hero-background"></div>
+    <div class="hero-content">
+      <div class="hero-text">
+        <h1>We empower <span class="highlight">students</span> and connect <span class="highlight">communities</span>.</h1>
+        <p class="subtitle">The ultimate e-commerce platform designed specifically for university students to buy, sell, and trade goods and services within their academic community.</p>
+        <div class="hero-buttons">
+          <a href="#featured-products" class="cta-btn">Start Shopping</a>
+          <a href="StudentSeller.html" class="cta-btn secondary">Become a Seller</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="floating-card">
+          <i class="fas fa-book" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+          <div>Textbooks & Study Materials</div>
+        </div>
+        <div class="floating-card">
+          <i class="fas fa-laptop" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+          <div>Tech & Electronics</div>
+        </div>
+        <div class="floating-card">
+          <i class="fas fa-utensils" style="font-size: 2rem; margin-bottom: 1rem;"></i>
+          <div>Food & Services</div>
+        </div>
+      </div>
     </div>
-    <div class="search__container">
-      <input class="search__input" type="text" placeholder="What are you looking for?">
+    <div class="brand-badge">
+      <i class="fas fa-graduation-cap" style="margin-right: 0.5rem;"></i>
+      strathmart.student
     </div>
-    <div class="navmenu">
-      <ul>
-        <li><a href="Listings.html">Listings</a></li>
-        <li><a href="Login.html">Login</a></li>
-        <li><a href="Profile.html">My Profile</a></li>
-        <li><a href="Cart.html">My Cart</a></li>
-      </ul>
+  </section>
+
+  <section class="user-segments">
+    <h2>Join StrathMart As</h2>
+    <p class="subtitle">Choose your role and start connecting with your university community</p>
+    <div class="user-cards">
+      <a href="StudentSeller.html" class="user-card">
+        <i class="fas fa-store" style="font-size: 3rem; margin-bottom: 1rem; display: block;"></i>
+        Student Seller
+      </a>
+      <a href="StudentBuyer.html" class="user-card">
+        <i class="fas fa-shopping-bag" style="font-size: 3rem; margin-bottom: 1rem; display: block;"></i>
+        Student Buyer
+      </a>
+      <a href="AdminPage.html" class="user-card">
+        <i class="fas fa-cog" style="font-size: 3rem; margin-bottom: 1rem; display: block;"></i>
+        Administrator
+      </a>
     </div>
-    <div class="Logout">
-      <a href="../public/homepage.html"><button>LogOut</button></a>
+  </section>
+
+  <section class="featured-products" id="featured-products">
+    <h2>Trending on Campus</h2>
+    <p class="subtitle">Popular products and services from your fellow students</p>
+    <div class="product-cards">
+      <div class="product-card">
+        <div class="product-image">
+          <i class="fas fa-book-open" style="font-size: 3rem;"></i>
+        </div>
+        <div class="product-info">
+          <h3>Engineering Textbooks</h3>
+          <p>Latest edition textbooks for engineering courses. Excellent condition, barely used.</p>
+          <div class="product-footer">
+            <span class="price">KSh 2,500</span>
+            <button class="add-to-cart">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="product-card">
+        <div class="product-image">
+          <i class="fas fa-laptop" style="font-size: 3rem;"></i>
+        </div>
+        <div class="product-info">
+          <h3>Laptop Repair Service</h3>
+          <p>Professional laptop repair and maintenance services by computer science students.</p>
+          <div class="product-footer">
+            <span class="price">From KSh 1,000</span>
+            <button class="add-to-cart">Book Service</button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="product-card">
+        <div class="product-image">
+          <i class="fas fa-utensils" style="font-size: 3rem;"></i>
+        </div>
+        <div class="product-info">
+          <h3>Homemade Meals</h3>
+          <p>Delicious, healthy homemade meals delivered to your dorm. Made by culinary students.</p>
+          <div class="product-footer">
+            <span class="price">KSh 300/meal</span>
+            <button class="add-to-cart">Order Now</button>
+          </div>
+        </div>
+      </div>
     </div>
-  </nav>
-</header>
+  </section>
 
-<section class="hero">
-  <div class="hero-content">
-    <h1>Empowering Local Farmers</h1>
-    <p>Buy fresh, quality produce directly from trusted Kenyan farmers.</p>
-    <a href="#featured-products" class="cta-btn">Shop Now</a>
-  </div>
-</section>
+  <script>
+    // Add smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
 
-<section class="user-segments">
-  <h2>Join Mazao Hub As</h2>
-  <div class="user-cards">
-    <a href="StudentSeller.html" class="user-card">Seller</a>
-    <a href="StudentBuyer.html" class="user-card">Buyer</a>
-    <a href="AdminPage.html" class="user-card">Administrator</a>
-  </div>
-</section>
+    // Add scroll effect to header
+    window.addEventListener('scroll', () => {
+      const header = document.querySelector('header');
+      if (window.scrollY > 100) {
+        header.style.background = 'rgba(220, 38, 38, 0.98)';
+      } else {
+        header.style.background = 'rgba(220, 38, 38, 0.95)';
+      }
+    });
 
-<section class="featured-products">
-  <h2>Featured Products</h2>
-  <div class="product-cards">
-    <div class="product-card">
+    // Add interactive search functionality
+    const searchInput = document.querySelector('.search__input');
+    searchInput.addEventListener('focus', () => {
+      searchInput.style.background = 'rgba(255, 255, 255, 0.3)';
+    });
+    searchInput.addEventListener('blur', () => {
+      searchInput.style.background = 'rgba(255, 255, 255, 0.2)';
+    });
 
+    // Add cart functionality
+    document.querySelectorAll('.add-to-cart').forEach(button => {
+      button.addEventListener('click', (e) => {
+        e.preventDefault();
+        button.style.background = '#22C55E';
+        button.textContent = 'Added!';
+        setTimeout(() => {
+          button.style.background = '';
+          button.textContent = button.textContent.includes('Service') ? 'Book Service' : 
+                              button.textContent.includes('Order') ? 'Order Now' : 'Add to Cart';
+        }, 2000);
+      });
+    });
+  </script>
+</body>
+</html>
