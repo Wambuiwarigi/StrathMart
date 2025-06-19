@@ -56,9 +56,7 @@ app.post('/submit-signup', (req, res) => {
     });
 
   } else if (role === 'seller') {
-    // Use default dummy business info if not in form
-    const business_name = "My Business";
-    const business_description = "Default seller description";
+  const { business_name, business_description } = req.body;
 
     const sql = `
       INSERT INTO student_sellers (id, first_name, last_name, email, phone, password, business_name, business_description)
