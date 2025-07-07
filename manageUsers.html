@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Manage Users</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <h2>Manage Users</h2>
+  <ul id="user-list"></ul>
+
+  <script>
+    const users = ["john@strathmore.edu", "alice@strathmore.edu", "michael@strathmore.edu"];
+
+    function renderUsers() {
+      const list = document.getElementById("user-list");
+      list.innerHTML = "";
+      users.forEach((user, index) => {
+        list.innerHTML += `<li>${user} <button onclick="removeUser(${index})">Remove</button></li>`;
+      });
+    }
+
+    function removeUser(index) {
+      const removed = users.splice(index, 1);
+      alert(`User removed: ${removed}`);
+      renderUsers();
+    }
+
+    renderUsers();
+  </script>
+</body>
+</html>

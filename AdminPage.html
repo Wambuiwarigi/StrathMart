@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="dashboard">
+    <h1>Welcome, Admin</h1>
+    <nav>
+      <ul>
+        <li><a href="manageUsers.html">Manage Users</a></li>
+        <li><a href="manageProducts.html">Manage Products</a></li>
+        <li><a href="adminLogin.html">Logout</a></li>
+      </ul>
+    </nav>
+
+    <section>
+      <h2>All Users</h2>
+      <ul id="user-list"></ul>
+    </section>
+
+    <section>
+      <h2>All Products</h2>
+      <ul id="product-list"></ul>
+    </section>
+  </div>
+
+  <script>
+    // Temporary demo arrays (replace with shared storage or backend later)
+    const users = ["john@strathmore.edu", "alice@strathmore.edu", "michael@strathmore.edu"];
+    const products = ["USB Drive", "Strath T-Shirt", "Hair Clips", "Make-up", "Cakes"];
+
+    function renderDashboard() {
+      const userList = document.getElementById("user-list");
+      const productList = document.getElementById("product-list");
+
+      users.forEach(user => {
+        userList.innerHTML += `<li>${user}</li>`;
+      });
+
+      products.forEach(product => {
+        productList.innerHTML += `<li>${product}</li>`;
+      });
+    }
+
+    renderDashboard();
+  </script>
+</body>
+</html>

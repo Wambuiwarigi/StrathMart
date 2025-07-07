@@ -1,0 +1,38 @@
+body {
+  font-family: Arial, sans-serif;
+  padding: 2rem;
+  background-color: #f7f9fc;
+}
+
+.login-container, .dashboard, h2 {
+  max-width: 400px;
+  margin: auto;
+  text-align: center;
+}
+
+input, button {
+  display: block;
+  width: 100%;
+  margin: 1rem 0;
+  padding: 10px;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+ul li {
+  padding: 10px;
+  background: #e0e0e0;
+  margin: 5px 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}

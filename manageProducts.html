@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Manage Products</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <h2>Manage Products</h2>
+  <input type="text" id="productName" placeholder="Product name"/>
+  <button onclick="addProduct()">Add Product</button>
+
+  <ul id="product-list"></ul>
+
+  <script>
+    const products = ["USB Drive", "Strath T-Shirt", "Stationery Set"];
+
+    function renderProducts() {
+      const list = document.getElementById("product-list");
+      list.innerHTML = "";
+      products.forEach((item, index) => {
+        list.innerHTML += `<li>${item} <button onclick="removeProduct(${index})">Remove</button></li>`;
+      });
+    }
+
+    function addProduct() {
+      const name = document.getElementById("productName").value.trim();
+      if (name) {
+        products.push(name);
+        document.getElementById("productName").value = "";
+        renderProducts();
+      }
+    }
+
+    function removeProduct(index) {
+      const removed = products.splice(index, 1);
+      alert(`Product removed: ${removed}`);
+      renderProducts();
+    }
+
+    renderProducts();
+  </script>
+</body>
+</html>
+
